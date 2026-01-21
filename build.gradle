@@ -22,6 +22,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-aop:3.5.9")
 	implementation 'org.springframework.boot:spring-boot-starter-opentelemetry'
 	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+	runtimeOnly("io.opentelemetry.instrumentation:opentelemetry-logback-appender-1.0:2.24.0-alpha")
 	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 	testImplementation 'org.springframework.boot:spring-boot-starter-opentelemetry-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
