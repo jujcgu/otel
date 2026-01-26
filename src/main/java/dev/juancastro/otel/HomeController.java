@@ -4,20 +4,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.micrometer.observation.annotation.Observed;
 
 @RestController
+@RequestMapping("/home")
 public class HomeController {
 
     private static final Logger log = LoggerFactory.getLogger(HomeController.class);
 
-    @GetMapping("/")
-    @Observed(name = "home.count")
+    @GetMapping
+    @Observed(name = "home.countV1")
     public String home() {
         log.info("Home endpoint called");
-        return "Hello World!";
+        return "Hello from v1!";
+    }
+
+    @GetMapping(version = "2.0.0")
+    @Observed(name = "home.countV2")
+    public String homeV2() {
+        log.info("Home endpoint called");
+        return "Hello from v2!";
     }
 
     @GetMapping("/greet/{name}")

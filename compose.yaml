@@ -1,7 +1,23 @@
 services:
   grafana-lgtm:
     image: 'grafana/otel-lgtm:latest'
+    container_name: lgtm
     ports:
       - '3000:3000'
-      - '4317'
-      - '4318'
+      - '4317:4317'
+      - '4318:4318'
+    environment:
+      - OTEL_METRIC_EXPORT_INTERVAL=5000
+
+  otel-app:
+    image: juancastro/otel:latest 
+    container_name: spring-app
+    build: .
+    ports:
+      - '8080:8080'
+    depends_on:
+      - grafana-lgtm
+    environment:
+      - MANAGEMENT_OTLP_METRICS_EXPORT_URL=http://grafana-lgtm:4318/v1/metrics
+      - MANAGEMENT_OPENTELEMETRY_TRACING_EXPORT_OTLP_ENDPOINT=http://grafana-lgtm:4318/v1/traces
+      - MANAGEMENT_OPENTELEMETRY_LOGGING_EXPORT_OTLP_ENDPOINT=http://grafana-lgtm:4318/v1/logs
